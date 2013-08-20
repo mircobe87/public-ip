@@ -1,0 +1,69 @@
+#!/bin/bash
+
+BOLD='\e[1m'
+NORM='\e[0m'
+
+# Autore: Mirco Bertelli
+# Data:   31/10/2012
+AUTH="Mirco Bertelli"
+DATE="31/10/2012"
+VERS="1.0"
+PROG="public-ip"
+
+# stampa un help per l'utente.
+function help () {
+	echo -e "${BOLD}USO:${NORM}\n    ${PROG} [-h | -v]\n    ${PROG} [--help | --version]\n"
+	echo -e "Restituisce l'indirizzo IP pubblico per questa macchina se usato senza opzioni.\n"
+	echo -e "${BOLD}OPZIONI:${NORM}\n    -h | --help       Mostrano questa breve guida."
+	echo -e "    -v | --version    Mostra le informazioni relative alla versione.\n"
+}
+
+# stampa informazioni sulla versione.
+function version () {
+	echo -e "  ${BOLD}Script:${NORM} ${PROG}\n${BOLD}Versione:${NORM} ${VERS}\n  ${BOLD}Autore:${NORM} ${AUTH}\n    ${BOLD}Data:${NORM} ${DATE}"
+}
+
+# Lo script stampa a video il proprio IP pubblico richiedendo la pagina web
+# http://checkip.dyndns.org/
+#
+# Il codice HTML della pagina web ha il seguente formato:
+# <html>
+# 	<head>
+# 		<title>Current IP Check</title>
+#   </head>
+# 	<body>
+# 		Current IP Address: [indirizzo IP]
+# 	</body>
+# </html>
+#
+# dove con [indirizzo IP] si intende l'indirizzo IP nella comune notazione
+# decimale in quattro campi puntati. 
+
+TEMP=$(getopt -o hv --long help,version -n "${PROG}" -- "$@")
+
+eval set -- "$TEMP"
+
+if [ $# != 1 ]; then
+	case "$1" in
+		-h|--help)
+			help
+			exit 0
+		;;
+		-v|--version)
+			version
+			exit 0
+		;;
+		*)
+			help
+			exit 1
+		;;
+	esac
+fi
+
+ip_html="$(wget http://checkip.dyndns.org/ -o /dev/null -O -)"
+ip="${ip_html//*: }"
+ip="${ip%%</*}"
+
+echo $ip
+
+exit 0

@@ -1,0 +1,25 @@
+[Mirco Bertelli] -------------------------------------------------- [31/10/2012]
+                               _     _ _           _       
+                   _ __  _   _| |__ | (_) ___     (_)_ __  
+                  | '_ \| | | | '_ \| | |/ __|____| | '_ \ 
+                  | |_) | |_| | |_) | | | (_|_____| | |_) |
+                  | .__/ \__,_|_.__/|_|_|\___|    |_| .__/ 
+                  |_|                               |_|    
+
+Lo script mostra l'indirizzo ip pubblico della macchina su cui viene eseguito.
+Per recuperare tale indirizzo si usa la pagina web http://checkip.dyndns.org/
+che ha il seguente contenuto:
+
+	<html>
+		<head>
+			<title>Current IP Check</title>
+		</head>
+		<body>
+			Current IP Address: [indirizzo IP]
+		</body>
+	</html>
+
+dove con [indirizzo IP] si intende l'indirizzo IP espresso nella solita
+notazione decimale puntata.
+
+[public-ip] -------------------------------------------------------------- [1/1]
